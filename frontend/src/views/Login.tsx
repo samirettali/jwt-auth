@@ -20,6 +20,7 @@ const Login = () => {
 
   const validate = (): boolean => {
     let valid = true;
+    setError("");
 
     if (!username) {
       setUsernameError("Invalid username");
