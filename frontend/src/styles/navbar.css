@@ -21,15 +21,16 @@
 .navbar a {
   text-decoration: none;
   transition: all 0.7 linear;
-  color: var(--black)
+  color: var(--black);
 }
 
 .navbar a:hover {
-  color: var(--blue)
+  color: var(--blue);
+  cursor: pointer;
 }
 
 .navbar a:visited {
-  color: var(--black)
+  color: var(--black);
 }
 
 .navbar a:visited:hover {
