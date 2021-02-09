@@ -1,16 +1,78 @@
 import React, { useState } from "react";
+import { BACKEND_URL } from '../constants';
 
 import '../styles/login.css';
 
 const Login = () => {
+  const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [usernameError, setUsernameError] = useState<string>("");
+
+  const validate = (): boolean => {
+    let valid = true;
+
+    if (!username) {
+      setUsernameError("Invalid username");
+      valid = false;
+    } else {
+      setUsernameError("");
+    }
+
+    if (!password) {
+      setPasswordError("Invalid password");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return valid;
+  }
+
+  const handleSubmit = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    if (!validate()) {
+      return;
+    }
+
+    setLoading(true);
+    const data = { username, password };
+    const url = `${BACKEND_URL}/login`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      setLoading(false);
+      const { token, error } = await response.json();
+
+      if (token) {
+        console.log(token);
+        // save token
+        // set user
+        // redirect
+      } else if (error) {
+        setError(error);
+      } else {
+        setError("There was an error processing your request");
+      }
+    } catch (err) {
+      setLoading(false);
+      console.error(err);
+      setError("There was an error processing your request");
+    }
+  };
 
   return (
     <div className="form-container">
       <h1 className="title">Login</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='form-group'>
           <label htmlFor="username">
             Username
@@ -23,6 +85,7 @@ const Login = () => {
             type="text"
             placeholder="Username"
           />
+          { usernameError && <div className="form-error">{usernameError}</div> }
         </div>
         <div className='form-group'>
           <label htmlFor="password">
@@ -33,11 +96,13 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             name="password"
             id="password"
-            type="text"
+            type="password"
             placeholder="Password"
           />
+          { passwordError && <div className="form-error">{passwordError}</div> }
         </div>
-        <button type="submit">Login</button>
+        { error && <div className='form-error'>{error}</div> }
+        <button type="submit" disabled={loading}>Login</button>
       </form>
     </div>
   );

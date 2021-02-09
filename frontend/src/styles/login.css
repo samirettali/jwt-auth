@@ -4,14 +4,13 @@
   border-radius: 8px;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   background-color: white;
-  padding: 1em;
+  padding: 2em;
 }
 
 form {
   display: flex;
   flex-direction: column;
 }
-
 
 form * {
   margin: .8em 0 .8em 0;
@@ -51,11 +50,11 @@ form label {
 
 form input {
   border: none;
-  background: var(--gray);
+  background: var(--dark-gray);
   /* border: 2px solid var(--gray); */
 }
 
-form-error {
+.form-error {
   color: var(--red);
 }
 
