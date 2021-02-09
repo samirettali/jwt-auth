@@ -1,8 +1,9 @@
 import express, { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
 import cors from 'cors';
 import fs from 'fs';
 
-import { PORT, FRONTEND_URL } from './constants';
+import { PORT, FRONTEND_URL, TOKEN_SECRET } from './constants';
 
 type User = {
   username: string;
@@ -37,12 +38,11 @@ app.post('/login', (req: Request, res: Response) => {
   ));
 
   if (user) {
-    const token = 'todo';
+    const token = jwt.sign({ username }, TOKEN_SECRET, { expiresIn: '12h' })
     res.status(200).json({ token });
   } else {
     res.status(401).json({ "error": "Invalid username or password" });
   }
-
 });
 
 app.listen(PORT, () => {
