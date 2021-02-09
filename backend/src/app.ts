@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser';
-import { PORT } from './constants';
+import cors from 'cors';
 import fs from 'fs';
+
+import { PORT, FRONTEND_URL } from './constants';
 
 type User = {
   username: string;
@@ -11,7 +12,12 @@ type User = {
 const app = express();
 const users: User[] = JSON.parse(fs.readFileSync('./users.json', 'utf8'))
 
-app.use(bodyParser());
+app.use(cors({
+  origin: FRONTEND_URL,
+  allowedHeaders: ['Content-Type'],
+}));
+
+app.use(express.json());
 
 app.post('/login', (req: Request, res: Response) => {
   const { username, password } = req.body;
