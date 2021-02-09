@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from 'react-router-dom';
 import { BACKEND_URL } from '../constants';
+import { UserContext } from '../UserContext';
 
 import '../styles/login.css';
 
 const Login = () => {
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
   const [passwordError, setPasswordError] = useState<string>("");
   const [usernameError, setUsernameError] = useState<string>("");
+
+  const history = useHistory();
+  const { setLogged } = useContext(UserContext);
 
   const validate = (): boolean => {
     let valid = true;
@@ -53,10 +60,9 @@ const Login = () => {
       const { token, error } = await response.json();
 
       if (token) {
-        console.log(token);
-        // save token
-        // set user
-        // redirect
+        localStorage.setItem("token", token);
+        setLogged(true);
+        history.push("/dashboard");
       } else if (error) {
         setError(error);
       } else {
