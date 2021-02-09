@@ -1,0 +1,37 @@
+.navbar-container {
+  margin-bottom: 2em;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.125rem;
+}
+
+.navbar-item {
+  padding: 2em 0 2em 2em;
+}
+
+.navbar-brand {
+  flex-grow: 1;
+  font-weight: bold;
+  padding: 2em 2em 2em 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  transition: all 0.7 linear;
+  color: var(--black)
+}
+
+.navbar a:hover {
+  color: var(--blue)
+}
+
+.navbar a:visited {
+  color: var(--black)
+}
+
+.navbar a:visited:hover {
+  color: var(--blue);
+}
